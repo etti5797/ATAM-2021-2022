@@ -61,7 +61,8 @@ type_one_update:  #not close
 leaq 8(%r11),%rsi  #src->next
 leaq 8(%r12),%rdx #d->n
 movq (%rdx),%r9
-movq %rsi,(%rdx)
+movq (%rsi),%r10 
+movq %r10,(%rdx) 
 movq %r9,(%rsi)
 movq %r11,8(%r14)
 cmpq (%rcx),%rax  #src first?

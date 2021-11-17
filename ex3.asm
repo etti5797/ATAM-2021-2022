@@ -17,7 +17,7 @@ lcm:
 movq a,%rax
 movq b,%rbx
 cwd
-imul %rbx
+mul %rbx
 divq %rsi
 movq %rax,c
 end:
