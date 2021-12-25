@@ -70,45 +70,250 @@ end_3:	ret
 
 
 cipher:
+	pushq %rax
 	pushq %rdi
 	pushq %rsi
 	pushq %rdx
 	pushq %rcx
 	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
 	movq %rdx,%rbx #save rdx to avoid to reload after each call of function
 	movq $0,%r15
 main_loop:
 	cmp %rbx,%r15
 	je end_4
-	call keyMixing
-	movq $0,%r13	
+
+
+	jmp push_regs_1
+push_1:	call keyMixing
+	jmp pop_regs_1
+pop_1:	movq $0,%r13	
 loop_9:
 	cmp $9,%r13
 	je end_9_loop
-	call byteSubstitution
-	call shiftRows
+	jmp push_regs_2
+push_2:	call byteSubstitution
+	jmp pop_regs_2
+pop_2:	jmp push_regs_6
+push_6:	call shiftRows
+	jmp pop_regs_6
+pop_6:	pushq %rax
 	pushq %rdi
 	pushq %rsi
+	pushq %rdx
+	pushq %rcx
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
 	call mixColumns
-	popq %rsi
-	popq %rdi
-	call keyMixing
-	incq %r13
-	jmp loop_9
-end_9_loop:
-	call byteSubstitution
-	call shiftRows
-	call keyMixing
-	incq %r15
-	addq $16,%rdi
-	jmp main_loop
-end_4:
+	popq %r11
+	popq %r10
+	popq %r9
 	popq %r8
 	popq %rcx
 	popq %rdx
 	popq %rsi
 	popq %rdi
+	popq %rax
+	jmp push_regs_3
+push_3:	call keyMixing
+	jmp pop_regs_3
+pop_3:	incq %r13
+	jmp loop_9
+end_9_loop:
+	jmp push_regs_4
+push_4:	call byteSubstitution
+	jmp pop_regs_4
+pop_4:	jmp push_regs_7
+push_7:	call shiftRows
+	jmp pop_regs_7
+pop_7:	jmp push_regs_5
+push_5:	call keyMixing
+	jmp pop_regs_5
+pop_5:	incq %r15
+	addq $16,%rdi
+	jmp main_loop
+end_4:
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rcx
+	popq %rdx
+	popq %rsi
+	popq %rdi
+	popq %rax
 	ret
+
+push_regs_1:
+	pushq %rax
+	pushq %rdi
+	pushq %rsi
+	pushq %rdx
+	pushq %rcx
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	jmp push_1
+pop_regs_1:
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rcx
+	popq %rdx
+	popq %rsi
+	popq %rdi
+	popq %rax
+	jmp pop_1
+
+
+push_regs_2:
+	pushq %rax
+	pushq %rdi
+	pushq %rsi
+	pushq %rdx
+	pushq %rcx
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	jmp push_2
+pop_regs_2:
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rcx
+	popq %rdx
+	popq %rsi
+	popq %rdi
+	popq %rax
+	jmp pop_2
+
+
+push_regs_3:
+	pushq %rax
+	pushq %rdi
+	pushq %rsi
+	pushq %rdx
+	pushq %rcx
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	jmp push_3
+pop_regs_3:
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rcx
+	popq %rdx
+	popq %rsi
+	popq %rdi
+	popq %rax
+	jmp pop_3
+
+push_regs_4:
+	pushq %rax
+	pushq %rdi
+	pushq %rsi
+	pushq %rdx
+	pushq %rcx
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	jmp push_4
+pop_regs_4:
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rcx
+	popq %rdx
+	popq %rsi
+	popq %rdi
+	popq %rax
+	jmp pop_4
+
+push_regs_5:
+	pushq %rax
+	pushq %rdi
+	pushq %rsi
+	pushq %rdx
+	pushq %rcx
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	jmp push_5
+pop_regs_5:
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rcx
+	popq %rdx
+	popq %rsi
+	popq %rdi
+	popq %rax
+	jmp pop_5
+
+push_regs_6:
+	pushq %rax
+	pushq %rdi
+	pushq %rsi
+	pushq %rdx
+	pushq %rcx
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	jmp push_6
+pop_regs_6:
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rcx
+	popq %rdx
+	popq %rsi
+	popq %rdi
+	popq %rax
+	jmp pop_6
+
+push_regs_7:
+	pushq %rax
+	pushq %rdi
+	pushq %rsi
+	pushq %rdx
+	pushq %rcx
+	pushq %r8
+	pushq %r9
+	pushq %r10
+	pushq %r11
+	jmp push_7
+pop_regs_7:
+	popq %r11
+	popq %r10
+	popq %r9
+	popq %r8
+	popq %rcx
+	popq %rdx
+	popq %rsi
+	popq %rdi
+	popq %rax
+	jmp pop_7
+
+
+
+
 
 
 
